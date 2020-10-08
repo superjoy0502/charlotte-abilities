@@ -19,8 +19,8 @@ class TomoriNao : Ability<AbilityConcept>(), Listener{
 
     // 능력: 지정된 대상에게서 모습을 감춤
 
-    private lateinit var target: Esper
-    private lateinit var player: Esper
+    private lateinit var target: Player
+    private lateinit var player: Player
 
     override fun onEnable() {
         psychic.registerEvents(this)
@@ -29,24 +29,24 @@ class TomoriNao : Ability<AbilityConcept>(), Listener{
     // 대상 지정
     @EventHandler
     fun onPlayerInteract(event: PlayerInteractEvent) {
-        player = event.player as Esper
-        if (event.action == Action.LEFT_CLICK_AIR && player.player.inventory.itemInMainHand.type == Material.IRON_BARS) {
-            player.player.sendMessage("능력 사용자가 철괴를 들고 왼손을 휘둘렀다.")
-            for (entity in player.player.world.entities) {
-                if (entity.location === player.player.eyeLocation && entity.type == EntityType.PLAYER) {
-                    target = entity as Esper
-                    player.player.sendMessage("You're looking at " + target.player.name + "!")
+        player = event.player
+        if (event.action == Action.LEFT_CLICK_AIR && player.inventory.itemInMainHand.type == Material.IRON_BARS) {
+            player.sendMessage("능력 사용자가 철괴를 들고 왼손을 휘둘렀다.")
+            for (entity in player.world.entities) {
+                if (entity.location === player.eyeLocation && entity.type == EntityType.PLAYER) {
+                    target = entity as Player
+                    player.sendMessage("You're looking at " + target.name + "!")
                 }
             }
         }
-        else if ((event.action == Action.RIGHT_CLICK_AIR || event.action == Action.RIGHT_CLICK_BLOCK) && player.player.inventory.itemInMainHand.type == Material.IRON_BARS){
+        else if ((event.action == Action.RIGHT_CLICK_AIR || event.action == Action.RIGHT_CLICK_BLOCK) && player.inventory.itemInMainHand.type == Material.IRON_BARS){
             hideMe()
         }
     }
 
     // 대상에게서 모습 감추기
-    fun hideMe(){
-        target.player.hidePlayer(psychic.plugin, player.player)
+    private fun hideMe(){
+        target.hidePlayer(psychic.plugin, player)
     }
 
 }
