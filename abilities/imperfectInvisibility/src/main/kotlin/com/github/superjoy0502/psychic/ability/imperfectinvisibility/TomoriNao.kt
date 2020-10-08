@@ -24,10 +24,10 @@ import org.bukkit.inventory.ItemStack
 class TomoriNaoConcept : AbilityConcept() {
 
     @Config
-    var invisibleDuration: Int = 1200
+    var invisibleDurationTick: Long = 1200L
 
     @Config
-    var invisibleCooldown: Int = 200
+    var invisibleCooldownTick: Long = 200L
 
     init {
         type = AbilityType.TOGGLE
@@ -49,7 +49,7 @@ class TomoriNaoConcept : AbilityConcept() {
         description = listOf(
                 "지정된 대상에게서 모습을 감춥니다.",
                 "웅크려서 대상을 지정할 수 있으며",
-                "철괴 클릭 시 \${common.casting-ticks / 20}초 후 \${imperfectInvisibility.invisible-duration / 20}초 동안 모습을 감춥니다.",
+                "유리창 클릭 시 \${common.casting-ticks / 20}초 후 \${imperfectInvisibility.invisible-duration / 20}초 동안 모습을 감춥니다.",
                 "투명화 중 공격을 하면 투명화가 풀리며",
                 "\${imperfectInvisibility.invisible-cooldown / 20}초의 쿨타임을 가집니다."
         )
