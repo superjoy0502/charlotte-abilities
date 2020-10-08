@@ -1,5 +1,5 @@
-package com.github.noonmaru.psychic.ability.sample
-
+package com.github.superjoy0502.psychic.ability.sample
+// TODO
 import com.github.noonmaru.psychics.Ability
 import com.github.noonmaru.psychics.AbilityConcept
 import org.bukkit.event.EventHandler
