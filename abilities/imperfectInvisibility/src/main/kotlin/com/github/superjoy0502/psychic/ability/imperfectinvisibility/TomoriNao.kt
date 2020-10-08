@@ -39,8 +39,7 @@ class TomoriNaoConcept : AbilityConcept(){
         )
         description = listOf(
             "지정된 대상에게서 모습을 감춥니다.",
-            "철괴를 좌클릭하여 대상을 지정할 수 있으며",
-            "우클릭 시 \${imperfectInvisibility.castingTicks / 20.0}초 뒤 \${imperfectInvisibility.durationTicks / 20.0}초 동안 모습을 감춥니다."
+            "철괴를 좌클릭하여 대상을 지정할 수 있습니다."
         )
     }
 }
