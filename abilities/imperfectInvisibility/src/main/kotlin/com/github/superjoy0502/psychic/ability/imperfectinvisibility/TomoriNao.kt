@@ -4,12 +4,14 @@ import com.github.noonmaru.psychics.AbilityConcept
 import com.github.noonmaru.psychics.AbilityType
 import com.github.noonmaru.psychics.ActiveAbility
 import com.github.noonmaru.psychics.Esper
+import com.github.noonmaru.psychics.event.EntityDamageByPsychicEvent
 import com.github.noonmaru.psychics.item.isPsychicbound
 import com.github.noonmaru.psychics.util.TargetFilter
 import com.github.noonmaru.psychics.util.Tick
 import com.github.noonmaru.tap.config.Config
 import com.github.noonmaru.tap.config.Name
 import com.github.noonmaru.tap.event.EntityProvider.EntityDamageByEntity
+import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.FluidCollisionMode
 import org.bukkit.Material
@@ -19,8 +21,10 @@ import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.event.block.Action
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.player.PlayerEvent
+import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import kotlin.math.max
@@ -146,6 +150,7 @@ class TomoriNao : ActiveAbility<TomoriNaoConcept>(), Runnable, Listener {
     // 대상에게서 모습 감추기
     private fun hideMe() {
         if (player != null && target != null && !inCooldown){
+            psychic.consumeMana(concept.cost)
             invisibilityTick = Tick.currentTicks + concept.invisibleDurationTick
             player?.let { target?.hidePlayer(psychic.plugin, it) }
             isHiding = true
@@ -188,16 +193,13 @@ class TomoriNao : ActiveAbility<TomoriNaoConcept>(), Runnable, Listener {
     // TODO 공격 시 투명화 해제 및 쿨타임 초기화
 
     @EventHandler
-    fun onPlayerAttack(event: EntityDamageByEntityEvent) {
-        println("${event.damager} hit ${event.entity}.")
-        if (event.damager.type == EntityType.PLAYER) {
-            println("${(event.damager as Player).name} hit")
-            var damager: Player = event.damager as Player
+    fun onPsychicDamage(event: EntityDamageByPsychicEvent) {
+        Bukkit.broadcastMessage(event.ability.esper.player.name)
+    }
 
-            if (damager == this.player && isHiding){
-                showMe()
-            }
-        }
+    @EventHandler
+    fun onEntityDamage(event: EntityDamageByEntityEvent){
+        Bukkit.broadcastMessage(event.entity.name)
     }
 
 }
