@@ -4,6 +4,10 @@ import com.github.noonmaru.psychics.AbilityConcept
 import com.github.noonmaru.psychics.AbilityType
 import com.github.noonmaru.psychics.ActiveAbility
 import com.github.noonmaru.psychics.Esper
+import com.github.noonmaru.psychics.attribute.EsperAttribute
+import com.github.noonmaru.psychics.attribute.EsperStatistic
+import com.github.noonmaru.psychics.damage.Damage
+import com.github.noonmaru.psychics.damage.DamageType
 import com.github.noonmaru.psychics.event.EntityDamageByPsychicEvent
 import com.github.noonmaru.psychics.item.isPsychicbound
 import com.github.noonmaru.psychics.util.TargetFilter
@@ -40,7 +44,7 @@ class TomoriNaoConcept : AbilityConcept() {
     var invisibleCooldownTick: Long = 200L
 
     init {
-        type = AbilityType.TOGGLE
+        type = AbilityType.ACTIVE
         displayName = "불완전 투명화"
         cost = 40.0 // TODO 마나 소모
         castingTicks = 20
@@ -56,6 +60,7 @@ class TomoriNaoConcept : AbilityConcept() {
         )
         interruptible = true
         wand = ItemStack(Material.IRON_INGOT)
+        damage = Damage(DamageType.MELEE, EsperStatistic.Companion.of(EsperAttribute.ATTACK_DAMAGE to 1.0))
         description = listOf(
             "지정된 대상에게서 모습을 감춥니다.",
             "웅크려서 대상을 지정할 수 있으며",
@@ -67,7 +72,7 @@ class TomoriNaoConcept : AbilityConcept() {
 
 }
 
-class TomoriNao : ActiveAbility<TomoriNaoConcept>(), Runnable, Listener {
+class TomoriNao : ActiveAbility<TomoriNaoConcept>(), Listener, Runnable {
 
     // 능력: 지정된 대상에게서 모습을 감춤
 
@@ -194,12 +199,12 @@ class TomoriNao : ActiveAbility<TomoriNaoConcept>(), Runnable, Listener {
 
     @EventHandler
     fun onPsychicDamage(event: EntityDamageByPsychicEvent) {
-        Bukkit.broadcastMessage(event.ability.esper.player.name)
+        Bukkit.broadcastMessage("Psychic")
     }
 
     @EventHandler
     fun onEntityDamage(event: EntityDamageByEntityEvent){
-        Bukkit.broadcastMessage(event.entity.name)
+        Bukkit.broadcastMessage("Entity")
     }
 
 }
