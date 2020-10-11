@@ -14,7 +14,9 @@ import com.github.noonmaru.psychics.util.TargetFilter
 import com.github.noonmaru.psychics.util.Tick
 import com.github.noonmaru.tap.config.Config
 import com.github.noonmaru.tap.config.Name
+import com.github.noonmaru.tap.event.EntityProvider
 import com.github.noonmaru.tap.event.EntityProvider.EntityDamageByEntity
+import com.github.noonmaru.tap.event.TargetEntity
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.FluidCollisionMode
@@ -27,6 +29,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
 import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.event.player.PlayerEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemFlag
@@ -198,13 +201,15 @@ class TomoriNao : ActiveAbility<TomoriNaoConcept>(), Listener, Runnable {
     // TODO 공격 시 투명화 해제 및 쿨타임 초기화
 
     @EventHandler
-    fun onPsychicDamage(event: EntityDamageByPsychicEvent) {
-        Bukkit.broadcastMessage("Psychic")
-    }
-
-    @EventHandler
+    @TargetEntity(DamagerProvider::class)
     fun onEntityDamage(event: EntityDamageByEntityEvent){
         Bukkit.broadcastMessage("Entity")
     }
 
+}
+
+class DamagerProvider : EntityProvider<EntityDamageByEntityEvent> {
+    override fun getFrom(event: EntityDamageByEntityEvent): Entity? {
+        return event.entity
+    }
 }
