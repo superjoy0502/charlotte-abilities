@@ -15,5 +15,5 @@
 ## Dependencies
 * Kotlin (JDK8)
 * [Tap](https://github.com/noonmaru/tap) (over 3.2.3) - [3.2.3](https://github.com/noonmaru/tap/releases/tag/3.2.3) 미만 버젼의 Tap에서는 **작동하지 않습니다.**
-* [PaperMC 1.16.3](https://papermc.io/downloads)
+* [PaperMC 1.16.4](https://papermc.io/downloads)
 * [Psychics](https://github.com/noonmaru/psychics) (over 0.9.2) - [0.9.2](https://github.com/noonmaru/psychics/releases/tag/0.9.2) 미만 버젼의 Psychics에서는 **작동하지 않습니다.**
